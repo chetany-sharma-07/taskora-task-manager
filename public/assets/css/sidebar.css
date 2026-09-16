@@ -1,0 +1,19 @@
+/* Taskora scrollbar */
+
+.topics-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.topics-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.topics-scroll::-webkit-scrollbar-thumb {
+    background: #252B52;
+    border-radius: 999px;
+}
+
+.topics-scroll::-webkit-scrollbar-thumb:hover {
+    background: #6366F1;
+}
+
