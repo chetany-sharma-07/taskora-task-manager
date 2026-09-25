@@ -26,6 +26,7 @@
         </div>
          <!-- hamburger button and logo image and app name ends here-->
 
+        <?php if ($currentPage !== 'landing_page'){?>
         <!-- Notification and Profile Button  -->
         <div class="flex items-center space-x-5 pr-6 text-2xl">
             
@@ -92,5 +93,24 @@
             <!-- Profile Menu  and Drop Down ends here   -->
         </div>
         <!-- Notification and Profile Button ends here -->
+        <?php }?>
+
+        <?php if ($currentPage === 'landing_page'){?>
+        <div class="flex items-center gap-2 pr-2 sm:gap-3 sm:pr-6">
+            
+            <!-- Login -->
+            <a href="login.php"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition duration-200 hover:bg-[#1B2550] hover:text-white sm:px-4">
+                Login
+            </a>
+
+            <!-- Sign Up -->
+            <a href="register.php"
+            class="rounded-lg bg-[#6366F1] px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-[#5558E8] hover:shadow-md sm:px-5">
+                Sign Up
+            </a>
+
+        </div>
+        <?php } ?>
 </nav>
      <!-- nav bar ends -->

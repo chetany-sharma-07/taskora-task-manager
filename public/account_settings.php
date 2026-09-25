@@ -50,7 +50,7 @@ $pageTitle = 'Account Settings';
     <div class="mt-6 flex min-h-[500px] overflow-hidden rounded-2xl border border-[#252B52] bg-[#11183D] shadow-lg shadow-black/20">
 
         <!-- Left Settings Sidebar -->
-        <div class="w-52 shrink-0 border-r border-[#252B52] p-3 md:w-60 md:p-4">
+        <div class="w-40 shrink-0 border-r border-[#252B52] p-3 md:w-60 md:p-4">
 
             <button class="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition duration-200 hover:bg-[#1B2550] hover:text-white">
                 <i class="fa-solid fa-user w-4 text-center text-slate-400"></i>
@@ -71,8 +71,9 @@ $pageTitle = 'Account Settings';
 
 
         <!-- Right Content Section -->
-        <!-- Profile Section -->
         <div class="min-w-0 flex-1 p-6 md:p-8">
+
+        <!-- Profile Section starts -->
           <div>
             <!-- Profile Heading -->
             <div class="mb-6">
@@ -92,28 +93,28 @@ $pageTitle = 'Account Settings';
 
                 <button type="button"
                     class="mt-3 cursor-pointer text-sm font-medium text-[#4ddcff] transition hover:text-white">
-                    Change your Photo
+                    Change your Avatar
                 </button>
             </div>
 
             <!-- Profile Fields -->
-            <div class="space-y-5">
+            <div class="space-x-5 space-y-5 md:flex">
 
-                <!-- Full Name -->
-                <div>
+                <!-- User Name -->
+                <div class = "flex-1">
                     <label for="profileName" class="mb-2 block text-sm font-medium text-slate-200">
-                        Full Name
+                        User Name
                     </label>
 
                     <input id="profileName"
                         type="text"
-                        value="Chetany Sharma"
+                        value="username123"
                         readonly
                         class="h-11 w-full rounded-lg border border-[#252B52] bg-[#0F1435] px-4 text-sm text-slate-300 outline-none cursor-default">
                 </div>
 
                 <!-- Email Address -->
-                <div>
+                <div class = "flex-1">
                     <label for="profileEmail" class="mb-2 block text-sm font-medium text-slate-200">
                         Email Address
                     </label>
@@ -127,16 +128,25 @@ $pageTitle = 'Account Settings';
 
             </div>
 
-            <!-- Save Button -->
+            
             <div class="mt-7 flex justify-end">
+                <!-- Save Button -->
+                <button type="button"
+                    class="cursor-pointer rounded-lg bg-[#6366F1] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-[#5558E8] hover:shadow-md hidden">
+                    Save Changes
+                </button>
+
+                <!-- Edit Button -->
                 <button type="button"
                     class="cursor-pointer rounded-lg bg-[#6366F1] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-[#5558E8] hover:shadow-md">
-                    Save Changes
+                    Edit
                 </button>
             </div>
           </div>
-            
+        <!-- Profile Section ends -->
 
+
+        
         </div>
 
     </div>
