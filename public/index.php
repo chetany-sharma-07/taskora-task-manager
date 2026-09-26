@@ -1,5 +1,5 @@
 <?php $currentPage = 'landing_page';
-$pageTitle = 'Landing Page';
+$pageTitle = 'Landing Page | Taskora';
 ?>
 
 <!-- navbar starts here -->
