@@ -25,10 +25,10 @@ $pageTitle = 'Create Account';
                 <div class="absolute left-1/2 top-[30%] md:top-[40%] z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center ">
                     <div class="flex flex-col  items-center ">
                         <img src="assets/images/Taskora_logo_new.png" alt="" class=" h-[150px] w-[150px] md:h-50  md:w-50 object-contain drop-shadow-[0_0_24px_rgba(77,220,255,0.18)]">
-                        <div class="-mt-2 text-[50px] font-bold leading-none tracking-tight text-[#F8FAFC]">Taskor<span class="text-[#4DDCFF]">a</span></div>
+                        <div class="taskora-wordmark-depth -mt-2 text-[30px] md:text-[40px] font-bold leading-none tracking-tight text-[#F8FAFC]">Taskor<span class="text-[#4DDCFF]">a</span></div>
                     </div>
-                    <!-- <span aria-hidden="true" class="h-px w-10 rounded-full bg-[#4DDCFF]/70"></span> -->
-                    <!-- <p class="text-xs font-medium tracking-wide text-[#CBD5E1]">Where Tasks Get Done</p> -->
+                    <span aria-hidden="true" class="h-px w-10 rounded-full bg-[#4DDCFF]/70"></span>
+                    <p class="text-xs font-medium tracking-wide text-[#CBD5E1]">Where Tasks Get Done</p>
                 </div>
                 <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#080B2A]/75 via-[#080B2A]/30 to-transparent"></div>
                 <div class="absolute bottom-7 left-6 z-10 max-w-[380px] sm:left-8 md:bottom-10 md:left-10">
@@ -142,6 +142,14 @@ $pageTitle = 'Create Account';
 
     <!-- Success checkmark ke liye chhoti pop animation. -->
     <style>
+        .taskora-wordmark-depth {
+            text-shadow:
+                0 1px 0 rgba(203, 213, 225, 0.75),
+                0 2px 0 rgba(148, 163, 184, 0.55),
+                0 4px 0 rgba(15, 20, 53, 0.9),
+                0 8px 16px rgba(8, 11, 42, 0.65),
+                0 0 18px rgba(77, 220, 255, 0.14);
+        }
         @keyframes account-check-pop {
             0% { opacity: 0; transform: scale(.4); }
             70% { opacity: 1; transform: scale(1.15); }
