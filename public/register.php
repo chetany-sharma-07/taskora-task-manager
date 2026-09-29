@@ -13,6 +13,36 @@ $pageTitle = 'Create Account';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/output.css">
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?> | Taskora</title>
+
+    <style>
+
+    /* Overide Browser Input Box Autofill Background */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #0F1435 inset !important;
+            -webkit-text-fill-color: #F8FAFC !important;
+            caret-color: #F8FAFC !important;
+            transition: background-color 9999s ease-in-out 0s;
+        }
+
+        /* <!-- Success checkmark ke liye chhoti pop animation. --> */
+        .taskora-wordmark-depth {
+            text-shadow:
+                0 1px 0 rgba(203, 213, 225, 0.75),
+                0 2px 0 rgba(148, 163, 184, 0.55),
+                0 4px 0 rgba(15, 20, 53, 0.9),
+                0 8px 16px rgba(8, 11, 42, 0.65),
+                0 0 18px rgba(77, 220, 255, 0.14);
+        }
+        @keyframes account-check-pop {
+            0% { opacity: 0; transform: scale(.4); }
+            70% { opacity: 1; transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .account-check { animation: account-check-pop 500ms ease-out both; }
+    </style>
 </head>
 
 <body class="min-h-screen overflow-x-hidden bg-[#080B2A] text-[#F8FAFC]">
@@ -85,7 +115,7 @@ $pageTitle = 'Create Account';
                                 <label for="username" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Username</label>
                                 <div class="relative">
                                     <i class="fa-solid fa-at pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
-                                    <input id="username" name="username" type="text" autocomplete="username" placeholder="csharma123" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
+                                    <input id="username" name="username" type="text" autocomplete="username" placeholder="for ex. ,username123" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
                                 </div>
                             </div>
                             <div>
@@ -140,23 +170,8 @@ $pageTitle = 'Create Account';
         </div>
     </main>
 
-    <!-- Success checkmark ke liye chhoti pop animation. -->
-    <style>
-        .taskora-wordmark-depth {
-            text-shadow:
-                0 1px 0 rgba(203, 213, 225, 0.75),
-                0 2px 0 rgba(148, 163, 184, 0.55),
-                0 4px 0 rgba(15, 20, 53, 0.9),
-                0 8px 16px rgba(8, 11, 42, 0.65),
-                0 0 18px rgba(77, 220, 255, 0.14);
-        }
-        @keyframes account-check-pop {
-            0% { opacity: 0; transform: scale(.4); }
-            70% { opacity: 1; transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-        .account-check { animation: account-check-pop 500ms ease-out both; }
-    </style>
+    
+    
 
     <!-- JavaScript: step navigation, validation, progress update, password toggle aur redirect. -->
     <script>
