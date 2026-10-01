@@ -84,6 +84,5 @@ document.addEventListener('click', function () {
 });
 
 
-topicOptionsMenu.addEventListener('click', function (event) {
-    event.stopPropagation();
-});
+
+

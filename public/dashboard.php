@@ -77,6 +77,7 @@ $pageTitle = 'Taskora - Work, Gets Done';
         </div>
         <!-- Dashboard Hero Ends -->
         
+        <!-- stats card starts -->
         <div class="my-6 flex flex-row items-center justify-center gap-x-10 md:gap-x-25 md:mx-10 mx-6">
 
             <!-- Total Tasks -->
@@ -142,33 +143,26 @@ $pageTitle = 'Taskora - Work, Gets Done';
             </div>
 
         </div>
-        <!-- <div  class="md:px-10 md:py-4 px-6 py-2 text-2xl md:text-3xl font-bold w-full">Quick Actions</div> -->
-
+        <!-- stats card ends here -->
+        
         <!-- Quick Actions button starts -->
         <div class="flex flex-wrap items-center gap-3 ml-20">
 
-        <!-- Create Task -->
-        <button id="createTaskModalBtn" class="inline-flex items-center gap-2 rounded-lg bg-[#6366F1] px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#5558E8] hover:shadow-md cursor-pointer"><i class="fa-solid fa-plus text-xs"></i>Create Task</button>
+            <!-- Create Task -->
+            <button id="createTaskModalBtn" class="inline-flex items-center gap-2 rounded-lg bg-[#6366F1] px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#5558E8] hover:shadow-md cursor-pointer"><i class="fa-solid fa-plus text-xs"></i>Create Task</button>
 
-        <!-- Export -->
-        <button class="inline-flex items-center gap-2 rounded-lg border border-[#252B52] bg-[#11183D] px-4 py-2 text-sm font-medium text-slate-200 shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#1B2550]  hover:text-white hover:shadow-md cursor-pointer"><i class="fa-solid fa-file-export text-xs"></i>Export</button>
+            <!-- Export -->
+            <button class="inline-flex items-center gap-2 rounded-lg border border-[#252B52] bg-[#11183D] px-4 py-2 text-sm font-medium text-slate-200 shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#1B2550]  hover:text-white hover:shadow-md cursor-pointer"><i class="fa-solid fa-file-export text-xs"></i>Export</button>
 
-        <!-- Import -->
-        <button class="inline-flex items-center gap-2 rounded-lg border border-[#252B52] bg-[#11183D] px-4 py-2 text-sm font-medium text-slate-200 shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#1B2550]  hover:text-white hover:shadow-md cursor-pointer"><i class="fa-solid fa-file-import text-xs"></i>Import</button>
+            <!-- Import -->
+            <button class="inline-flex items-center gap-2 rounded-lg border border-[#252B52] bg-[#11183D] px-4 py-2 text-sm font-medium text-slate-200 shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#1B2550]  hover:text-white hover:shadow-md cursor-pointer"><i class="fa-solid fa-file-import text-xs"></i>Import</button>
 
         </div>
         <!-- Quick Actions ends here -->
             
         <!-- Tasks section starts here  -->
-            <!-- Tasks Section -->
         <!-- Tasks Section -->
         <div class="mt-10 px-6 md:px-10">
-
-            <!-- Tasks Heading -->
-            <!-- <h2 class="mb-6 mt-2 text-2xl md:text-3xl font-bold text-white">
-                Tasks
-            </h2> -->
-
 
             <!-- Search / Filter Section -->
             <div class="mb-8 flex w-full items-center gap-3">
@@ -244,8 +238,7 @@ $pageTitle = 'Taskora - Work, Gets Done';
 
 
             <!-- Tasks Table -->
-            <div class="mb-10 w-full  rounded-xl
-                        border border-[#252B52] bg-[#11183D] ">
+            <div class="mb-10 w-full  rounded-xl border border-[#252B52] bg-[#11183D] ">
 
                 <table class="w-full table-fixed text-left">
 
@@ -305,13 +298,13 @@ $pageTitle = 'Taskora - Work, Gets Done';
                             <td class="px-2 py-4 text-center md:px-6">
                                 <div class="flex items-center justify-center gap-2">
 
-                                <!-- Edit -->
+                                    <!-- Edit -->
                                     <button id="editTaskModalBtn" type="button"  title="Edit" aria-label="Edit task" class="cursor-pointer rounded-md bg-blue-500/10 p-1.5 text-blue-400 transition hover:bg-blue-500/20 hover:text-blue-300">
                                         <i class="fa-solid fa-pencil text-xs md:text-sm"></i>
                                     </button>
 
                                     <!-- Delete -->
-                                    <button type="button" title="Delete" aria-label="Delete task" class="cursor-pointer rounded-md bg-red-500/10 p-1.5 text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
+                                    <button id="deleteTaskBtn" type="button" title="Delete" aria-label="Delete task" class="cursor-pointer rounded-md bg-red-500/10 p-1.5 text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
                                         <i class="fa-solid fa-xmark text-sm md:text-base"></i>
                                     </button>
 
@@ -480,10 +473,54 @@ $pageTitle = 'Taskora - Work, Gets Done';
     </button>
 
 </div>
+
+<!-- Create Delte Topic/Task Modal starts here -->
+<!-- Delete Topic/Task Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="deleteModalHeading" aria-describedby="deleteModalDescription">
+    <div class="relative w-full max-w-[360px] rounded-2xl border border-[#252B52] bg-[#11183D] p-4 shadow-2xl shadow-black/30 sm:p-6">
+
+        <button id="closeDeleteModal" type="button" aria-label="Close dialog" class="absolute right-3 top-3 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-[#94A3B8] transition-all duration-200 hover:bg-[#1B2550] hover:text-[#F8FAFC] sm:right-4 sm:top-4 sm:h-9 sm:w-9">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <div class="flex flex-col items-center text-center">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 sm:h-11 sm:w-11">
+                <i class="fa-solid fa-trash text-[#EF4444]" aria-hidden="true"></i>
+            </div>
+
+            <h2 id="deleteModalHeading" class="mt-3 text-lg font-semibold tracking-tight text-[#F8FAFC] sm:mt-4 sm:text-xl">
+                Delete Topic
+            </h2>
+
+            <p id="deleteModalDescription" class="mt-2 max-w-[360px] text-[13px] leading-5 text-[#94A3B8] sm:text-sm sm:leading-6">
+                Are you sure you want to delete "<span id="deleteName" class="font-bold text-[#CBD5E1]">College</span>" <span id="deleteType">topic</span>? This action cannot be undone.
+            </p>
+        </div>
+
+        <div class="mt-5 flex flex-wrap justify-end gap-2 sm:mt-7 sm:gap-3">
+            <button id="cancelDelete" type="button" class="min-h-10 cursor-pointer rounded-lg border border-[#252B52] bg-[#1B2550] px-3 py-2 text-sm font-medium text-[#CBD5E1] transition-all duration-200 hover:-translate-y-px hover:bg-[#252B52] hover:text-[#F8FAFC] hover:shadow-md sm:px-4">
+                Cancel
+            </button>
+
+            <button id="confirmDeleteTopic" type="button" class="hidden min-h-10 cursor-pointer rounded-lg bg-[#EF4444] px-3 py-2 text-sm font-semibold text-[#F8FAFC] transition-all duration-200 hover:-translate-y-px hover:bg-[#DC2626] hover:shadow-md sm:px-4">
+                Delete Topic
+            </button>
+
+            <button id="confirmDeleteTask" type="button" class="hidden min-h-10 cursor-pointer rounded-lg bg-[#EF4444] px-3 py-2 text-sm font-semibold text-[#F8FAFC] transition-all duration-200 hover:-translate-y-px hover:bg-[#DC2626] hover:shadow-md sm:px-4">
+                Delete Task
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Create Delete Topic/Task Modal ends here -->
+
+
+
+
  <!-- Topic Action Modal ends here -->
+ <script src="assets/js/dashboard.js"></script>
 <script src="assets/js/navbar.js"></script>
-<script src="assets/js/sidebar.js"></script>
-<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/sidebar.js?v=3"></script>
 
 </body>
 </html>
