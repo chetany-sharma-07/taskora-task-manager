@@ -165,76 +165,100 @@ $pageTitle = 'Taskora - Work, Gets Done';
         <div class="mt-10 px-6 md:px-10">
 
             <!-- Search / Filter Section -->
-            <div class="mb-8 flex w-full items-center gap-3">
+            <div class="mb-8 flex w-full flex-col gap-3 md:flex-row md:items-center ">
 
-                <!-- Status Select -->
-                <select
-                    class="h-10 shrink-0 rounded-lg border border-[#252B52]
-                        bg-[#11183D] px-3
-                        text-sm md:text-base text-slate-200
-                        outline-none
-                        focus:border-[#6366F1]
-                        focus:ring-1 focus:ring-[#6366F1]
-                        cursor-pointer">
+                <div class= "flex w-full items-center gap-3 md:w-auto md:shrink-0">
 
-                    <option>All Status</option>
-                    <option>Completed</option>
-                    <option>Pending</option>
-                    <option>Working</option>
+                    <!-- Status Select -->
+                    <select
+                        class="h-10 shrink-0 rounded-lg border border-[#252B52]
+                            bg-[#11183D] px-3
+                            text-sm md:text-base text-slate-200
+                            outline-none
+                            focus:border-[#6366F1]
+                            focus:ring-1 focus:ring-[#6366F1]
+                            cursor-pointer">
 
-                </select>
+                        <option>All Status</option>
+                        <option>Completed</option>
+                        <option>Pending</option>
+                        <option>Working</option>
 
-
-                <!-- Priority Select -->
-                <select
-                    class="h-10 shrink-0 rounded-lg border border-[#252B52]
-                        bg-[#11183D] px-3
-                        text-sm md:text-base text-slate-200
-                        outline-none
-                        focus:border-[#6366F1]
-                        focus:ring-1 focus:ring-[#6366F1]
-                        cursor-pointer">
-
-                    <option>All Priority</option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-
-                </select>
+                    </select>
 
 
-                <!-- Search Box -->
-                <input
-                    type="text"
-                    placeholder="Search tasks..."
-                    class="h-10 min-w-0 flex-1
-                        rounded-lg border border-[#252B52]
-                        bg-[#11183D] px-4
-                        text-sm md:text-base text-white
-                        placeholder:text-slate-500
-                        outline-none
-                        focus:border-[#6366F1]
-                        focus:ring-1 focus:ring-[#6366F1]">
+                    <!-- Priority Select -->
+                    <select
+                        class="h-10 shrink-0 rounded-lg border border-[#252B52]
+                            bg-[#11183D] px-3
+                            text-sm md:text-base text-slate-200
+                            outline-none
+                            focus:border-[#6366F1]
+                            focus:ring-1 focus:ring-[#6366F1]
+                            cursor-pointer">
+
+                        <option>All Priority</option>
+                        <option>High</option>
+                        <option>Medium</option>
+                        <option>Low</option>
+
+                    </select>
+
+                    <!-- Due Date -->
+                    <select
+                        class="h-10 shrink-0 rounded-lg border border-[#252B52]
+                            bg-[#11183D] px-3 text-sm md:text-base
+                            text-slate-200 outline-none
+                            focus:border-[#6366F1]
+                            focus:ring-1 focus:ring-[#6366F1]
+                            cursor-pointer">
+
+                        <option>All Due Dates</option>
+                        <option>Overdue</option>
+                        <option>Today</option>
+                        <option>Tomorrow</option>
+                        <option>This Week</option>
+                        <option>No Due Date</option>
+
+                    </select>
+
+                </div>
+
+                
+                <div class="flex min-w-0 w-full gap-3 md:w-auto md:flex-1">
+                    <!-- Search Box -->
+                    <input
+                        type="text"
+                        placeholder="Search tasks..."
+                        class="h-10 min-w-0 flex-1
+                            rounded-lg border border-[#252B52]
+                            bg-[#11183D] px-4
+                            text-sm md:text-base text-white
+                            placeholder:text-slate-500
+                            outline-none
+                            focus:border-[#6366F1]
+                            focus:ring-1 focus:ring-[#6366F1]">
 
 
-                <!-- Search Button -->
-                <button
-                    class="inline-flex h-10 shrink-0 items-center justify-center gap-2
-                        rounded-lg
-                        bg-[#6366F1] px-4 md:px-5
-                        text-sm md:text-base font-semibold text-white
-                        transition duration-200 ease-out
-                        hover:-translate-y-0.5
-                        hover:bg-[#5558E8]
-                        hover:shadow-md
-                        cursor-pointer">
+                    <!-- Search Button -->
+                    <button
+                        class="inline-flex h-10 shrink-0 items-center justify-center gap-2
+                            rounded-lg
+                            bg-[#6366F1] px-4 md:px-5
+                            text-sm md:text-base font-semibold text-white
+                            transition duration-200 ease-out
+                            hover:-translate-y-0.5
+                            hover:bg-[#5558E8]
+                            hover:shadow-md
+                            cursor-pointer">
 
-                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                    <span>Search</span>
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        <span>Search</span>
 
-                </button>
+                    </button>
 
-            </div>
+                </div>
+            </div> 
 
 
             <!-- Tasks Table -->
@@ -245,23 +269,23 @@ $pageTitle = 'Taskora - Work, Gets Done';
                     <!-- Table Heading -->
                     <thead class="border-b border-[#252B52] bg-[#0F1435]">
                         <tr>
-                            <th class="w-[34%] px-2 py-3 text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
+                            <th class="w-[28%] px-2 py-3 text-xs font-semibold text-slate-200 md:w-[34%] md:px-6 md:py-4 md:text-base">
                                 Task Name
                             </th>
 
-                            <th class="w-[16%] px-2 py-3 text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
+                            <th class="w-[14%] px-1 py-3 text-xs font-semibold text-slate-200 md:w-[16%] md:px-6 md:py-4 md:text-base">
                                 Priority
                             </th>
 
-                            <th class="w-[21%] px-2 py-3 text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
+                            <th class="w-[20%] px-1 py-3 text-xs font-semibold text-slate-200 md:w-[21%] md:px-6 md:py-4 md:text-base">
                                 Due Date
                             </th>
 
-                            <th class="w-[18%] px-2 py-3 text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
+                            <th class="w-[18%] px-1 py-3 text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
                                 Status
                             </th>
 
-                            <th class="w-[11%] px-2 py-3  text-center text-xs font-semibold text-slate-200 md:px-6 md:py-4 md:text-base">
+                            <th class="w-[20%] px-1 py-3 text-center text-xs font-semibold text-slate-200 md:w-[11%] md:px-6 md:py-4 md:text-base">
                                 Actions
                             </th>
                         </tr>
@@ -274,8 +298,11 @@ $pageTitle = 'Taskora - Work, Gets Done';
                         <!-- Task 1 -->
                         <tr class="transition duration-200 hover:bg-[#1B2550]">
 
-                            <td class="truncate px-2 py-4 text-xs font-medium text-white md:px-6 md:text-base">
-                                Complete PHP API This is PHP Task so
+                            <td class="px-2 py-4 text-xs font-medium text-white md:px-6 md:text-base">
+                                <div class="flex min-w-0 items-center gap-2">
+                                    <input type="checkbox" aria-label="Select task: Complete PHP API This is PHP Task so" class="h-4 w-4 shrink-0 cursor-pointer accent-[#6366F1]">
+                                    <span class="truncate">Complete PHP API This is PHP Task so</span>
+                                </div>
                             </td>
 
                             <td class="px-2 py-4 md:px-6">
@@ -295,8 +322,8 @@ $pageTitle = 'Taskora - Work, Gets Done';
                             </td>
 
                             
-                            <td class="px-2 py-4 text-center md:px-6">
-                                <div class="flex items-center justify-center gap-2">
+                            <td class="px-1 py-4 text-center md:px-6">
+                                <div class="flex items-center justify-center gap-1 md:gap-2">
 
                                     <!-- Edit -->
                                     <button id="editTaskModalBtn" type="button"  title="Edit" aria-label="Edit task" class="cursor-pointer rounded-md bg-blue-500/10 p-1.5 text-blue-400 transition hover:bg-blue-500/20 hover:text-blue-300">
@@ -457,7 +484,7 @@ $pageTitle = 'Taskora - Work, Gets Done';
 <!-- Create Task Modal ends here  -->
 
 <!-- Topic Action Modal here -->
-<!-- Topic Options Menu -->
+<!-- Topic Options Menu  starts here-->
 <div id="topicOptionsMenu" class="hidden fixed z-[999] w-40 rounded-lg border border-[#252B52] bg-[#11183D] p-1.5 shadow-xl">
 
     <button id="renameTopicModalBtn"
@@ -473,9 +500,9 @@ $pageTitle = 'Taskora - Work, Gets Done';
     </button>
 
 </div>
+<!-- Topic Options Menu  starts ends here-->
 
-<!-- Create Delte Topic/Task Modal starts here -->
-<!-- Delete Topic/Task Modal -->
+<!-- Create Delete Topic/Task Modal starts here -->
 <div id="deleteModal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="deleteModalHeading" aria-describedby="deleteModalDescription">
     <div class="relative w-full max-w-[360px] rounded-2xl border border-[#252B52] bg-[#11183D] p-4 shadow-2xl shadow-black/30 sm:p-6">
 
