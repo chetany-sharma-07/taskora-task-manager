@@ -33,15 +33,17 @@ $pageTitle = 'Create Account';
                     </ol>
 
                     <!-- Ek hi form mein sabhi steps hain; JavaScript ek waqt mein ek panel dikhata hai. -->
-                    <form id="signupForm" action="" method="post" novalidate class="mt-6">
+                    <form id="signupForm"  method="post" novalidate class="mt-6">
                         <!-- Step 1: user ki basic details lena aur validate karna. -->
-                        <div id="detailsStep" class="space-y-4">
+                        <div id="detailsStep" class="space-y-2">
+                            <p id="detailsError" class="hidden text-sm text-red-400" role="alert" aria-live="polite"></p>
                             <div>
                                 <label for="fullName" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Full Name</label>
                                 <div class="relative">
                                     <i class="fa-regular fa-user pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
                                     <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Full Name" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
                                 </div>
+                                <span id="fullNameError" class="ml-4 text-red-400 text-xs"></span>
                             </div>
                             <div>
                                 <label for="username" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Username</label>
@@ -49,14 +51,18 @@ $pageTitle = 'Create Account';
                                     <i class="fa-solid fa-at pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
                                     <input id="username" name="username" type="text" autocomplete="username" placeholder="for ex. ,username123" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
                                 </div>
+                                <span id="usernameError" class="ml-4 text-red-400 text-xs"></span>
                             </div>
                             <div>
                                 <label for="email" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Email Address</label>
                                 <div class="relative">
                                     <i class="fa-regular fa-envelope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
-                                    <input id="email" name="email" type="email" autocomplete="email" placeholder="Email Address" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
+                                    <input id="email" name="email" type="email" autocomplete="email" placeholder="Email Address" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-12 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
+                                    <button type="button" id="verifyEmail" aria-live="polite" class="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-[#0F1435] px-2 py-1 text-xs font-semibold text-[#4DDCFF] transition hover:text-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1]"><span id="verifyEmailLabel">Verify</span><span id="verifyEmailSpinner" class="verify-spinner hidden" aria-hidden="true"></span></button>
                                 </div>
+                                <span id="emailError" class="ml-4 text-red-400 text-xs"></span>
                             </div>
+                            
                             <button id="nextStep" type="button" class="h-11 w-full rounded-full bg-[#6366F1] text-sm font-semibold text-[#F8FAFC] shadow-sm transition duration-200 hover:-translate-y-px hover:bg-[#5558E8]">Next</button>
                         </div>
 

@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="assets/images/favicon.png?v=3" sizes="64x64">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="assets/css/<?= htmlspecialchars($currentPage, ENT_QUOTES, 'UTF-8') ?>.css">
+    <link rel="stylesheet" href="assets/css/<?= htmlspecialchars($currentPage, ENT_QUOTES, 'UTF-8') ?>.css?v=2">
 
     <!-- common css file for login/register/forgot-password-->
     <link rel="stylesheet" href="assets/css/auth.css">

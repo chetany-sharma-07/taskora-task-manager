@@ -8,6 +8,7 @@ const loginPrompt = document.getElementById('loginPrompt');
 const backToLanding = document.getElementById('backToLanding');
 const backToDetails = document.getElementById('backToDetails');
 const signupForm = document.getElementById('signupForm');
+const verifyEmailButton = document.getElementById('verifyEmail');
 let currentStep = 1;
 
 // Progress line update karta hai aur complete steps ke number ki jagah tick dikhata hai.
@@ -75,10 +76,121 @@ function validateFields(container) {
     return true;
 }
 
+verifyEmailButton.addEventListener('click', ()=>{
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    const verifyEmailLabel = document.getElementById('verifyEmailLabel');
+    const verifyEmailSpinner = document.getElementById('verifyEmailSpinner');
+    const email = emailInput.value.trim();
+
+    emailError.textContent = '';
+    // emailError.classList.add('hidden');
+
+    if (!emailInput.checkValidity()) {
+        emailError.textContent = email ? 'Please enter a valid email address.' : 'Email is required.';
+        // emailError.classList.remove('hidden');
+        emailInput.focus();
+        return;
+    }
+
+    verifyEmailButton.disabled = true;
+    verifyEmailButton.setAttribute('aria-label', 'Verifying email');
+    verifyEmailLabel.classList.add('hidden');
+    verifyEmailSpinner.classList.remove('hidden');
+    emailError.textContent = 'Email is sent to your inbox. Please check and verify.';
+    emailError.classList.remove('text-red-400');
+    emailError.classList.add('text-[#4DDCFF]');
+    const minimumLoadingTime = new Promise((resolve) => window.setTimeout(resolve, 1500));
+
+    Promise.allSettled([
+        fetch('../api/auth/verify_email.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        }),
+        minimumLoadingTime
+    ]).then(async ([requestResult]) => {
+        if (requestResult.status === 'rejected') throw requestResult.reason;
+
+        const response = requestResult.value;
+        const data = await response.json();
+        if (!response.ok || data.success !== true) {
+            throw new Error(data.error || data.message || 'Email verification request failed.');
+        }
+
+        verifyEmailSpinner.classList.add('hidden');
+        verifyEmailLabel.textContent = 'Verified';
+        verifyEmailLabel.classList.remove('hidden');
+        verifyEmailButton.setAttribute('aria-label', 'Email verified');
+        verifyEmailButton.classList.remove('text-[#4DDCFF]', 'hover:text-[#F8FAFC]');
+        verifyEmailButton.classList.add('text-green-400');
+        emailError.textContent = '';
+    }).catch((error) => {
+        verifyEmailSpinner.classList.add('hidden');
+        verifyEmailLabel.classList.remove('hidden');
+        verifyEmailButton.disabled = false;
+        verifyEmailButton.removeAttribute('aria-label');
+        emailError.textContent = error.message || 'Unable to reach the server. Please try again.';
+        // emailError.classList.remove('hidden');
+    });
+});
+
 // Details valid hone ke baad hi Password step par jaata hai.
 document.getElementById('nextStep').addEventListener('click', () => {
-    if (!validateFields(detailsStep)) return;
-    showStep(2);
+    document.getElementById('detailsError').classList.add('hidden');
+
+    fetch('../api/auth/validate_details.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            full_name: document.getElementById('fullName').value.trim(),
+            username: document.getElementById('username').value.trim(),
+            email: document.getElementById('email').value.trim()
+        })
+    })
+    .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok && !data.errors) {
+            throw new Error(data.message || 'Could not validate your details. Please try again.');
+        }
+        return data;
+    })
+    .then(data => {
+        if (data.success) {
+            showStep(2);
+        }else if (!data.success && data.errors) {
+            Object.entries(data.errors).forEach(([field, message]) => {
+                const camelCaseField = field.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+                const errorElement = document.getElementById(`${camelCaseField}Error`);
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.classList.remove('hidden');
+                }
+            });
+        } else {
+            detailsError.textContent = data.message || 'Could not validate your details. Please try again.';
+            detailsError.classList.remove('hidden');
+        }
+    })
+    .catch((error) => {
+        detailsError.textContent = error.message || 'Unable to reach the server. Please try again.';
+        detailsError.classList.remove('hidden');
+    });
+});
+
+// Input badalne par us field ka purana validation message hata deta hai.
+[
+    ['fullName', 'fullNameError'],
+    ['username', 'usernameError'],
+    ['email', 'emailError']
+].forEach(([inputId, errorId]) => {
+    document.getElementById(inputId).addEventListener('input', () => {
+        const errorElement = document.getElementById(errorId);
+        errorElement.textContent = '';
+        // errorElement.classList.add('hidden');
+    });
 });
 
 backToDetails.addEventListener('click', () => showStep(1));
