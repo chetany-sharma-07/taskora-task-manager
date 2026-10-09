@@ -76,6 +76,7 @@ function validateFields(container) {
     return true;
 }
 
+// Email verify button ke click hone par email ko verify karta hai aur user ko feedback deta hai.
 verifyEmailButton.addEventListener('click', ()=>{
     const emailInput = document.getElementById('email');
     const emailError = document.getElementById('emailError');
@@ -94,6 +95,7 @@ verifyEmailButton.addEventListener('click', ()=>{
     }
 
     verifyEmailButton.disabled = true;
+    emailInput.disabled = true;
     verifyEmailButton.setAttribute('aria-label', 'Verifying email');
     verifyEmailLabel.classList.add('hidden');
     verifyEmailSpinner.classList.remove('hidden');
@@ -129,6 +131,7 @@ verifyEmailButton.addEventListener('click', ()=>{
         verifyEmailSpinner.classList.add('hidden');
         verifyEmailLabel.classList.remove('hidden');
         verifyEmailButton.disabled = false;
+        emailInput.disabled = false;
         verifyEmailButton.removeAttribute('aria-label');
         emailError.textContent = error.message || 'Unable to reach the server. Please try again.';
         // emailError.classList.remove('hidden');

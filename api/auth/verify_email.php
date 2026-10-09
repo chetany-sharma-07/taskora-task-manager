@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../controllers/AuthControllers.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -18,26 +20,16 @@ if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
     echo json_encode(['success' => false, 'message' => 'Request body must be a valid JSON object.']);
     exit;
 }
-function input_test($input){
-    return strip_tags(trim((string)$input));
-}
 
-$email = input_test($data["email"] ?? '');
+$authController = new AuthControllers();
+$response = $authController->verifyEmail($data);
 
-if (!$email) {
-    $error = 'Email is required.';
-} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $error = 'Invalid email format.';
-}
-
-if (isset($error)) {
+if (!$response['success']) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => $error]);
+    echo json_encode($response);
     exit;
 }
 
-$_SESSION['verify_email'] = true;
+echo json_encode($response);
 
-http_response_code(200);
-echo json_encode(['success' => true, 'message' => 'Email verification request received.']);
 
