@@ -16,14 +16,14 @@ $pageTitle = 'Login';
                             <label for="loginUser" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Email or Username</label>
                             <div class="relative">
                             <i class="fa-solid fa-at pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
-                            <input id="loginUser" name="login_user" type="text" autocomplete="username" placeholder="Email Address or Username" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
+                            <input id="loginUser" name="login_user" type="text" autocomplete="off" placeholder="Email Address or Username" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-4 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
                             </div>
                         </div>
                         <div>
                             <label for="password" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Password</label>
                             <div class="relative">
                                 <i class="fa-solid fa-lock pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]" aria-hidden="true"></i>
-                                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-12 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
+                                <input id="password" name="password" type="password" autocomplete="off" placeholder="Password" required class="h-11 w-full rounded-full border border-[#252B52] bg-[#0F1435] pl-12 pr-12 text-sm text-[#F8FAFC] outline-none transition duration-200 placeholder:text-[#64748B] focus:border-[#6366F1] focus:ring-4 focus:ring-[rgba(99,102,241,0.20)]">
                                 <button type="button" data-password-toggle aria-label="Show password" aria-controls="password" class="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[#64748B] transition hover:text-[#F8FAFC]"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
                             </div>
                         </div>

@@ -68,6 +68,7 @@ $pageTitle = 'Create Account';
 
                         <!-- Step 2: password lena aur Terms checkbox ko required rakhna. -->
                         <div id="passwordStep" class="hidden space-y-4" hidden>
+                            <span id="passwordError" class="ml-4 text-red-400 text-xs"></span>
                             <div>
                                 <label for="password" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Password</label>
                                 <div class="relative">
@@ -85,7 +86,7 @@ $pageTitle = 'Create Account';
                                 </div>
                             </div>
                             <label class="flex items-start gap-2 text-xs leading-5 text-[#94A3B8]">
-                                <input id="terms" type="checkbox" name="terms" required class="mt-0.5 h-4 w-4 shrink-0 accent-[#6366F1]">
+                                <input id="terms" type="checkbox" name="terms" class="mt-0.5 h-4 w-4 shrink-0 accent-[#6366F1]">
                                 <span>I agree to the <a href="#terms" class="text-[#4DDCFF] transition hover:text-[#F8FAFC]">Terms &amp; Conditions</a></span>
                             </label>
                             <button id="completeSignup" type="button" class="h-11 w-full rounded-full bg-[#6366F1] text-sm font-semibold text-[#F8FAFC] shadow-sm transition duration-200 hover:-translate-y-px hover:bg-[#5558E8]">Set Password</button>

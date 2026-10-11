@@ -199,22 +199,50 @@ document.getElementById('nextStep').addEventListener('click', () => {
 backToDetails.addEventListener('click', () => showStep(1));
 
 // Password aur Terms check karta hai, success screen dikhata hai, phir login par bhejta hai.
-document.getElementById('completeSignup').addEventListener('click', () => {
+document.getElementById('completeSignup').addEventListener('click', async () => {
     document.getElementById('confirmPassword').setCustomValidity('');
-    if (!validateFields(passwordStep)) return;
+    // if (!validateFields(passwordStep)) return;
 
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
-    confirmPassword.setCustomValidity(password.value === confirmPassword.value ? '' : 'Passwords do not match.');
-    if (!confirmPassword.checkValidity()) {
-        confirmPassword.reportValidity();
-        confirmPassword.focus();
-        return;
-    }
+    // confirmPassword.setCustomValidity(password.value === confirmPassword.value ? '' : 'Passwords do not match.');
+    // if (!confirmPassword.checkValidity()) {
+    //     confirmPassword.reportValidity();
+    //     confirmPassword.focus();
+    //     return;
+    // }
 
-    document.getElementById('createdName').textContent = document.getElementById('fullName').value.trim();
-    showStep(3);
-    window.setTimeout(() => { window.location.href = 'login.php'; }, 2000);
+    try {
+        const response = await fetch('../api/auth/create_user.php',{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                password: password.value,
+                confirm_password: confirmPassword.value,
+                terms: document.getElementById('terms').checked
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok && !data.error){
+            throw new Error(data.error || data.message || 'Could not validate your details. Please try again.');
+        }
+
+        if (data.success){
+            document.getElementById('createdName').textContent = document.getElementById('fullName').value.trim();
+            showStep(3);
+            window.setTimeout(() => { window.location.href = 'login.php'; }, 2000);
+        }else if (data.error) {
+            document.getElementById('passwordError').textContent = data.error;
+        } else {
+            document.getElementById('passwordError').textContent = data.message || 'Could not create your account. Please try again.';
+        }
+
+
+    }catch (error) {
+        document.getElementById('passwordError').textContent = error.message || 'Unable to reach the server. Please try again.';
+    }  
 });
 
 // Confirm password badalne par purana mismatch error hata deta hai.
