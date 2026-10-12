@@ -92,28 +92,30 @@ class AuthControllers {
         }
         $signup_data = $_SESSION['signup_data'];
 
-        unset($_SESSION['signup_data']);
+        
 
         if (!isset($_SESSION['verified_email']) || $_SESSION['verified_email'] !== $signup_data['email']) {
             return ['success' => false, 'error' => 'Email not verified. Please verify your email first.', 'verified_email' => $_SESSION['verified_email'] ?? null];
         }
 
-        unset($_SESSION['verified_email']);
-
         $user_id = 'user_' . bin2hex(random_bytes(16)); // Generate a unique user ID
-        $full_name = $signup_data['full_name']; 
+        $full_name = $signup_data['full_name'];
+        $first_name = explode(' ', $full_name)[0];
+        $last_name = count(explode(' ', $full_name)) > 1 ? explode(' ', $full_name)[1] : '';
         $username = $signup_data['username'];
         $email = $signup_data['email'];
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
         require_once __DIR__ . '/../models/User.php';
-        // $userModel = new User($this->db);
-        // $createUserResult = $userModel->createUser($user_id, $full_name, $username, $email, $password_hash);
+        $userModel = new User($this->db);
+        $createUserResult = $userModel->createUser($user_id, $first_name, $last_name, $username, $email, $password_hash);
 
-        // if (!$createUserResult) {
-        //     return ['success' => false, 'error' => 'Failed to create user. Please try again.'];
-        // }
+        if (!$createUserResult) {
+            return ['success' => false, 'error' => 'Failed to create user. Please try again.'];
+        }
 
+        unset($_SESSION['signup_data']);
+        unset($_SESSION['verified_email']);
 
         return ['success' => true, 'message' => 'User created successfully.', 'user' => [
             'full_name' => $full_name,
@@ -121,5 +123,48 @@ class AuthControllers {
             'email' => $email
         ]];
         
+    }
+
+    function loginUser(array $data): array {
+        $login_user = isset($data['login_user']) ? $this->input_test($data['login_user']) : '';
+        $password = isset($data['password']) && is_string($data['password']) ? $data['password'] : '';
+        $remember_me = isset($data['remember']) ? (bool)$data['remember'] : false;
+
+        if (!$login_user || !$password) {
+            return ['success' => false, 'error' => 'Both login credentials are required.'];
+        }
+
+        $isEmail = filter_var($login_user, FILTER_VALIDATE_EMAIL);
+
+        require_once __DIR__ . '/../models/User.php';
+        $userModel = new User($this->db);
+
+        $result = $userModel->loginUser($login_user, $isEmail);
+
+        if (!$result || !password_verify($password, $result['password'])) {
+            return ['success' => false, 'error' => 'Invalid login credentials.'];
+        }
+
+        // session_regenerate_id(true);
+        // $_SESSION['user_id'] = (string)$result['user_id'];
+        // unset($_SESSION['user_id']);
+
+        if ($remember_me) {
+            $token = bin2hex(random_bytes(16));
+            $tokenHash = hash('sha256', $token);
+            $expires = time() + (30 * 24 * 60 * 60); // 30 days in seconds
+            $updateTokenResult = $userModel->updateToken($result['user_id'], $tokenHash, $expires);
+            if (!$updateTokenResult) {
+                return ['success' => false, 'error' => 'Failed to update user token. Please try again.'];
+            }
+            
+            // setcookie('auth_token', $token, ['expires' => $expires, 'path' => '/', 'secure' => false, 'httponly' => true]); // 30 days expiration  
+        }
+        
+
+        return ['success' => true, 'message' => 'Login successful.', 'user' => [
+            'user_id' => (string)$result['user_id'],
+            'full_name' => trim($result['first_name'] . ' ' . $result['last_name']),
+        ]];
     }
 }

@@ -12,6 +12,7 @@ $pageTitle = 'Login';
                         <p class="mt-2 text-sm text-[#94A3B8]">Log in to your Taskora account to continue.</p>
                     </header>
                     <form action="" method="post" class="mt-10 space-y-4">
+                        <span id="loginError" class="ml-4 text-red-400 text-xs"></span>
                         <div>
                             <label for="loginUser" class="mb-1.5 block text-[13px] font-medium text-[#CBD5E1]">Email or Username</label>
                             <div class="relative">
@@ -43,10 +44,6 @@ $pageTitle = 'Login';
                     <p class="mt-5 text-center text-[13px] text-[#94A3B8]">Don't have an account? <a href="register.php" class="font-medium text-[#4DDCFF] transition hover:text-[#F8FAFC]">Sign up</a></p>
                 </div>
 
-
-                <div>
-
-                </div>
 
                  <!-- Login Sucess and Dashboard Redirect-->
                 <div id = "loginSuccess" class="hidden py-8 text-center" >
