@@ -167,4 +167,49 @@ class AuthControllers {
             'full_name' => trim($result['first_name'] . ' ' . $result['last_name']),
         ]];
     }
+
+    /**
+     * Decide whether the caller should send the visitor to the login page.
+     *
+     * Returns true when authentication is required (no valid session/token), and
+     * false when the visitor is authenticated and should go to the dashboard.
+     * This function never performs a redirect itself.
+     */
+
+    function require_login(): bool
+    {
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            return false; // User is logged in, no need to redirect
+        }
+
+        if (isset($_COOKIE['auth_token']) && !empty($_COOKIE['auth_token'])) {
+            $userModel = new User($this->db);
+            $tokenHash = hash('sha256', $_COOKIE['auth_token']);
+            $user = $userModel->getUserByToken($tokenHash);
+
+            if ($user && isset($user['expires']) && time() < (int)$user['expires']) {
+                // Token is valid, log the user in
+                session_regenerate_id(true);
+                $_SESSION['user_id'] = (string)$user['user_id'];
+
+                // Update the token and expiration time for "remember me" functionality
+                $token = bin2hex(random_bytes(16));
+                $tokenHash = hash('sha256', $token);
+                $expires = time() + (30 * 24 * 60 * 60); // 30 days in seconds
+                $updateTokenResult = $userModel->updateToken($user['user_id'], $tokenHash, $expires);
+                if (!$updateTokenResult) {
+                    throw new Exception("Failed to update user token");
+                }
+                setcookie('auth_token', $token, ['expires' => $expires, 'path' => '/', 'secure' => false, 'httponly' => true]); // 30 days expiration
+                return false; // User is logged in, no need to redirect
+            } else {
+                // Token is invalid or expired, clear the cookie
+                setcookie('auth_token', '', time() - 3600, '/'); // Expire the cookie
+                return true; // User is not logged in, redirect to login
+            }
+        }
+
+        return true; // User is not logged in, redirect to login
+    }
+
 }

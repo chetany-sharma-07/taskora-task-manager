@@ -27,4 +27,12 @@ class User {
         $stmt = $this->db->prepare("UPDATE users SET token = ?, token_expires_at = ?, updated_at = NOW() WHERE user_id = ?");
         return $stmt->execute([$tokenHash, $expiry, $user_id]);
     }
+
+    public function getUserByToken(string $tokenHash) {
+        $stmt = $this->db->prepare("SELECT user_id, first_name, last_name, username, email, token_expires_at AS expires FROM users WHERE token = ?");
+        $stmt->execute([$tokenHash]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ? $user : false;
+    }
 }
