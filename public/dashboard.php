@@ -2,6 +2,9 @@
 <?php $currentPage = 'dashboard';
 $pageTitle = 'Taskora - Work, Gets Done';
 ?>
+<?php 
+require_once __DIR__ . '/../includes/auth.php'; 
+?>
 
 <!-- navbar starts here -->
 <?php require_once __DIR__ . '/../includes/header.php';?>

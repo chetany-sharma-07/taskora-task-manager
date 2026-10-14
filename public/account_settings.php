@@ -3,6 +3,10 @@ $currentPage = 'settings';
 $pageTitle = 'Account Settings';
 ?>
 
+<?php 
+require_once __DIR__ . '/../includes/auth.php'; 
+?>
+
 <!-- navbar starts here -->
 <?php require_once __DIR__ . '/../includes/header.php';?>
 <!-- navbar starts ends here -->

@@ -2,6 +2,9 @@
 $currentPage = 'login';
 $pageTitle = 'Login';
 ?>
+<?php 
+require_once __DIR__ . '/../includes/auth.php'; 
+?>
 
 <?php require_once __DIR__.'/components/auth-template.php'?>
 

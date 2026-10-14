@@ -4,6 +4,10 @@ $currentPage = 'register';
 $pageTitle = 'Create Account';
 ?>
 
+<?php 
+require_once __DIR__ . '/../includes/auth.php'; 
+?>
+
 <?php require_once __DIR__.'/components/auth-template.php'?>
 
             <!-- Right panel mein heading, progress bar aur signup ke steps hain. -->

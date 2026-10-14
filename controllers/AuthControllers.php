@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../models/User.php';
 
 class AuthControllers {
     private $db;
@@ -136,7 +137,6 @@ class AuthControllers {
 
         $isEmail = filter_var($login_user, FILTER_VALIDATE_EMAIL);
 
-        require_once __DIR__ . '/../models/User.php';
         $userModel = new User($this->db);
 
         $result = $userModel->loginUser($login_user, $isEmail);
@@ -145,8 +145,8 @@ class AuthControllers {
             return ['success' => false, 'error' => 'Invalid login credentials.'];
         }
 
-        // session_regenerate_id(true);
-        // $_SESSION['user_id'] = (string)$result['user_id'];
+        session_regenerate_id(true);
+        $_SESSION['user_id'] = (string)$result['user_id'];
         // unset($_SESSION['user_id']);
 
         if ($remember_me) {
@@ -158,7 +158,7 @@ class AuthControllers {
                 return ['success' => false, 'error' => 'Failed to update user token. Please try again.'];
             }
             
-            // setcookie('auth_token', $token, ['expires' => $expires, 'path' => '/', 'secure' => false, 'httponly' => true]); // 30 days expiration  
+            setcookie('auth_token', $token, ['expires' => $expires, 'path' => '/', 'secure' => false, 'httponly' => true]); // 30 days expiration  
         }
         
 
@@ -178,6 +178,8 @@ class AuthControllers {
 
     function require_login(): bool
     {
+        //false ---> user is logged in, no need to redirect to login page
+        //true ---> user is not logged in, redirect to login page
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             return false; // User is logged in, no need to redirect
         }
