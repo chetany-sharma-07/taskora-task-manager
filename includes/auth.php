@@ -15,7 +15,8 @@ try {
         //curretn user --> true --> user need to login
         //curretnuser --->false ---> user not need to login
         if (!$currentUser && in_array($currentPage, ['login','landing_page','register'])) {
-                header("Location: dashboard.php");
+                $user_id = $_SESSION['user_id'];
+                header("Location: dashboard.php?userId={$user_id}");
                 exit();
         }elseif ($currentUser && in_array($currentPage, ['settings','dashboard'])){
                 header("Location: index.php");

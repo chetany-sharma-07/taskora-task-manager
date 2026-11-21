@@ -26,18 +26,32 @@ const createRenameTopicModalSubHeading = document.getElementById('createRenameTo
 
 const topicOptionsMenu = document.getElementById('topicOptionsMenu');
 
-createTopicModalBtn.addEventListener('click', function () {
+
+function openCreateTopicModal(){
+    topicModalMode = 'create';
+    selectedTopicId = null;
+    topicName.value = '';
     createRenameTopicModalHeading.textContent = "Create Topic ";
     createRenameTopicModalSubHeading.textContent = "Create a new topic to organize your tasks.";
     createRenameTopicModal.classList.remove('hidden');
-});
+    topicName.focus();
+}
 
-renameTopicModalBtn.addEventListener('click',function () {
+function openRenameTopicModal(topicId = '', currentTopicName = 'College'){
+    topicModalMode = 'rename';
+    selectedTopicId = topicId;
+    topicName.value = currentTopicName;
     createRenameTopicModalHeading.textContent = "Rename Topic";
     createRenameTopicModalSubHeading.textContent = "Update the name of your topic to keep your tasks organized.";
     topicOptionsMenu.classList.add('hidden');
     createRenameTopicModal.classList.remove('hidden');
-});
+    topicName.focus();
+}
+
+let topicModalMode = '';
+createTopicModalBtn.addEventListener('click', openCreateTopicModal);
+
+renameTopicModalBtn.addEventListener('click',()=> {openRenameTopicModal(selectedTopicId,selectedTopicName)});
 
 closeTopicModal.addEventListener('click', function () {
     topicName.value = '';
@@ -48,41 +62,210 @@ cancelTopicModal.addEventListener('click', function () {
     topicName.value = '';
     createRenameTopicModal.classList.add('hidden');
 });
+//---------------------------------------------------------------------------------------------
+//Create or Rename Topics API requests
 
+// async function createTopic(topicName){
+//     try {
+//         const response = await fetch('../api/topics/create-topic.php',{
+//         method: 'POST',
+//         headers: {
+//             'Content-type':'application/json'
+//         },
+//         body: JSON.stringify({
+//             topic_name: topicName
+//         })
+//         });
+//         const data = await response.json()
+
+//         if (!response.ok || !data.success) {
+//             throw new Error(data.error || data.message || 'Something went wrong.');
+//         }
+
+//         const message = topicModalMode === 'create'
+//             ? 'Topic created successfully'
+//             : 'Topic updated successfully';
+
+//         console.log(message);
+//         topicError.textContent = '';
+        
+//     } catch (error) {
+//         console.log('Topic Error:', error);
+//         topicError.textContent = "Something went wrong !";
+//     }
+// }
+
+async function createRenameTopic(topicName,topicId = '',topicModalMode){
+    try{
+        let response;
+        if (topicModalMode === 'create'){
+            response = await fetch('../api/topics/create_topic.php',{
+                method: 'POST',
+                headers: {
+                    'Content-type':'application/json'
+                },
+                body: JSON.stringify({
+                    topic_name: topicName,
+                    mode: topicModalMode
+                })
+            });
+        }else if (topicModalMode === 'rename'){
+            response = await fetch('../api/topics/update_topic.php', {
+                method: 'PUT',
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    topic_name: topicName,
+                    topic_id: topicId,
+                    mode: topicModalMode
+                })
+            });
+        }else {
+            throw new Error("Something went wrong.");
+        }
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || data.message || 'Something went wrong.');
+        }
+
+        return {
+            success: true,
+            message: data.message || (topicModalMode === 'create'
+                ? 'Topic created successfully.'
+                : 'Topic renamed successfully.')
+        };
+
+    }catch (error){
+        console.error('Topic Error:', error);
+        return { success: false, message: error.message || 'Could not save the topic. Please try again.' };
+    }
+}
+
+// Reusable feedback toast for sidebar and other actions.
+function showToast(message, type = 'success', duration = 3500){
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'fixed right-4 top-20 z-[200] flex w-[min(24rem,calc(100vw-2rem))] flex-col gap-3';
+        toastContainer.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastContainer);
+    }
+
+    const toast = document.createElement('div');
+    const isSuccess = type === 'success';
+    toast.className = `flex items-center gap-3 rounded-xl border px-4 py-3 text-sm text-white shadow-2xl backdrop-blur transition-all duration-300 ease-out opacity-0 -translate-y-2 ${
+        isSuccess ? 'border-emerald-500/30 bg-[#11183D]/95' : 'border-rose-500/30 bg-[#11183D]/95'
+    }`;
+    const icon = document.createElement('i');
+    icon.className = `fa-solid ${isSuccess ? 'fa-circle-check text-emerald-400' : 'fa-circle-exclamation text-rose-400'}`;
+    const text = document.createElement('span');
+    text.className = 'min-w-0 flex-1 text-slate-100';
+    text.textContent = message;
+    toast.append(icon, text);
+    toastContainer.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.remove('opacity-0', '-translate-y-2'));
+    window.setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        window.setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+const saveTopicBtn = document.getElementById('saveTopicBtn');
+saveTopicBtn.addEventListener('click', async function(){
+    if (saveTopicBtn.disabled) return;
+    saveTopicBtn.disabled = true;
+    const mode = topicModalMode;
+    const name = topicName.value.trim();
+    const topicId = selectedTopicId;
+
+    try {
+        const result = await createRenameTopic(name, topicId, mode);
+        createRenameTopicModal.classList.add('hidden');
+        topicName.value = '';
+        await getTopics(); //update sidebar topics list after create or rename
+        showToast(result.message, result.success ? 'success' : 'error');
+    } finally {
+        saveTopicBtn.disabled = false;
+    }
+});
 // ---------------------------------------------------------------------------------------------
 
 //Create Topics Option Menu 
 
-const topicMenuBtns = document.querySelectorAll('.topic-menu-btn');
-// const topicOptionsMenu = document.getElementById('topicOptionsMenu');
+let selectedTopicId = null;
+let selectedTopicName = '';
+const topicsList = document.getElementById('topicsList');
 
-topicMenuBtns.forEach(btn => {
-    btn.addEventListener('click', function (event) {
-        event.stopPropagation();
+topicsList.addEventListener('click', function(event) {
+    const btn = event.target.closest('.topic-menu-btn');
+    if (!btn) return;
 
-        const rect = btn.getBoundingClientRect();
-        // topicOptionsMenu.classList.remove('hidden');
-        topicOptionsMenu.classList.toggle('hidden');
+    const topicItem = btn.closest('[data-topic-id]');
+    selectedTopicId = topicItem.dataset.topicId;
+    selectedTopicName = topicItem.querySelector('.topic-name').textContent;
 
-        const menuHeight = topicOptionsMenu.offsetHeight;
-        const spaceBelow = window.innerHeight - rect.bottom;
+    event.stopPropagation();
 
-        if (spaceBelow < menuHeight + 10) {
-            topicOptionsMenu.style.top = `${rect.top - menuHeight - 5}px`;
-        } else {
-            topicOptionsMenu.style.top = `${rect.bottom + 5}px`;
-        }
+    const rect = btn.getBoundingClientRect();
+    topicOptionsMenu.classList.toggle('hidden');
 
-        topicOptionsMenu.style.left = `${rect.left - 35}px`;
-    });
+    const menuHeight = topicOptionsMenu.offsetHeight;
+    const spaceBelow = window.innerHeight - rect.bottom;
+
+    if (spaceBelow < menuHeight + 10) {
+        topicOptionsMenu.style.top = `${rect.top - menuHeight - 5}px`;
+    } else {
+        topicOptionsMenu.style.top = `${rect.bottom + 5}px`;
+    }
+
+    topicOptionsMenu.style.left = `${rect.left - 35}px`;
+
 });
-
 
 
 document.addEventListener('click', function () {
     topicOptionsMenu.classList.add('hidden');
 });
 
+//Topic list
+async function getTopics(){
+    try{
+        const response = await fetch("../api/topics/get_topics.php");
+        const data = await response.json();
+
+        if (!response.ok || !data.success) return;
+
+        const topicsList = document.getElementById('topicsList');
+        topicsList.replaceChildren();
+
+        data.topics.forEach(topic=> {
+            const item = document.createElement('div');
+            item.className = 'flex justify-between items-center pl-6 py-1 hover:bg-[#1B2550] m-3 rounded-xl bg-[#11183D]';
+            item.dataset.topicId = topic.topic_id;
+
+            item.innerHTML = `<div class="flex items-center space-x-1">
+                    <div><i class="fa-solid fa-caret-right"></i></div>
+                    <div class="topic-name"></div>
+                </div>
+                <button class="topic-menu-btn pr-3 cursor-pointer">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>`;
+
+            item.dataset.topicId = topic.topic_id;
+            item.querySelector('.topic-name').textContent = topic.topic_name;
+            topicsList.appendChild(item);
+        });
+    }catch(error){
+        console.error('Error fetching topics:', error);
+    }
+}
+
+getTopics();
 
 
 

@@ -33,14 +33,14 @@ require_once __DIR__ . '/../includes/auth.php';
         <!-- search box ends -->
 
         <!-- sidebar topics start m-3 rounded-xl bg-[#11183D] -->
-         <div class="min-h-0 flex-1 overflow-y-auto  topics-scroll mt-3">
-            <div class="flex justify-between items-center pl-6 py-1 hover:bg-[#1B2550]  m-3 rounded-xl bg-[#11183D]">  
+         <div id="topicsList" class="min-h-0 flex-1 overflow-y-auto  topics-scroll mt-3">
+            <!-- <div class="flex justify-between items-center pl-6 py-1 hover:bg-[#1B2550]  m-3 rounded-xl bg-[#11183D]">  
                 <div class="flex items-center space-x-1">
                     <div><i class="fa-solid fa-caret-right"></i></div>
                     <div>College</div>
                 </div>
                 <button class="topic-menu-btn pr-3 cursor-pointer"><i class="fa-solid fa-ellipsis-vertical"></i></button>  
-            </div>
+            </div> -->
          </div>
         <!-- sidebar topic ends -->
     </aside>
@@ -401,6 +401,9 @@ require_once __DIR__ . '/../includes/auth.php';
 </div>
 <!-- Create Topic Modal Ends here -->
 
+<!-- Reusable action feedback toasts -->
+<div id="toastContainer" class="fixed right-4 top-20 z-[200] flex w-96 max-w-[calc(100vw-2rem)] flex-col gap-3" aria-live="polite" aria-atomic="false"></div>
+
 <!-- Create or Edit Task Modal starts here  -->
 <div id="createEditTaskModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/60 backdrop-blur-sm px-4 py-6">
 
@@ -550,7 +553,7 @@ require_once __DIR__ . '/../includes/auth.php';
  <!-- Topic Action Modal ends here -->
  <script src="assets/js/dashboard.js"></script>
 <script src="assets/js/navbar.js"></script>
-<script src="assets/js/sidebar.js?v=3"></script>
+<script src="assets/js/sidebar.js?v=4"></script>
 
 </body>
 </html>
