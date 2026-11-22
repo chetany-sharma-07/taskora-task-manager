@@ -41,4 +41,11 @@ class Topic {
         $check->execute([$topicId, $userId]);
         return (bool)$check->fetchColumn();
     }
+
+    public function deleteTopic(string $userId, int $topicId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM topics WHERE id = ? AND user_id = ?");
+        $stmt->execute([$topicId, $userId]);
+        return $stmt->rowCount() > 0;
+    }
 }

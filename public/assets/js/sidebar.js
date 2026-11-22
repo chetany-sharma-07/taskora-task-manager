@@ -95,6 +95,7 @@ cancelTopicModal.addEventListener('click', function () {
 //     }
 // }
 
+//function to create or rename topic based on the mode
 async function createRenameTopic(topicName,topicId = '',topicModalMode){
     try{
         let response;
@@ -144,6 +145,35 @@ async function createRenameTopic(topicName,topicId = '',topicModalMode){
     }
 }
 
+//function to delete topic
+async function deleteTopic(topicId)
+{
+    try {
+        const response = await fetch('../api/topics/delete_topic.php', {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                topic_id: topicId
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || data.message || 'Something went wrong.');
+        }
+        
+        return {
+            success: true,
+            message: data.message || 'Topic deleted successfully.'
+        };
+    }catch (error) {
+        console.error('Topic Error:', error);
+        return { success: false, message: error.message || 'Could not delete the topic. Please try again.' };
+    }
+}
 // Reusable feedback toast for sidebar and other actions.
 function showToast(message, type = 'success', duration = 3500){
     let toastContainer = document.getElementById('toastContainer');
@@ -191,6 +221,24 @@ saveTopicBtn.addEventListener('click', async function(){
         showToast(result.message, result.success ? 'success' : 'error');
     } finally {
         saveTopicBtn.disabled = false;
+    }
+});
+
+const confirmDeleteTopicBtn = document.getElementById('confirmDeleteTopic');
+confirmDeleteTopicBtn.addEventListener ('click', async function(){
+    if (confirmDeleteTopicBtn.disabled) return;
+    confirmDeleteTopicBtn.disabled = true; 
+    const topicId = selectedTopicId;
+    try {
+        const result = await deleteTopic(topicId);
+        deleteModal.classList.add('hidden');
+        await getTopics(); //update sidebar topics list after delete
+        showToast(result.message, result.success ? 'success' : 'error');
+    } catch (error) {
+        console.error('Error deleting topic:', error);
+        showToast('Could not delete the topic. Please try again.', 'error');
+    } finally {
+        confirmDeleteTopicBtn.disabled = false;
     }
 });
 // ---------------------------------------------------------------------------------------------

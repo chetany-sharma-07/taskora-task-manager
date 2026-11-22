@@ -89,4 +89,24 @@ class TopicControllers{
             'topic_name' => $topicName,
         ]];
     }
+
+    function deleteTopic(array $data): array
+    {
+        $userId = $_SESSION['user_id'] ?? null;
+        if (!$userId) {
+            return ['success' => false, 'error' => 'Login required.'];
+        }
+
+        $topicId = filter_var($data['topic_id'] ?? null, FILTER_VALIDATE_INT);
+        if ($topicId === false || $topicId === null || $topicId < 1) {
+            return ['success' => false, 'error' => 'A valid topic_id is required.'];
+        }
+
+        $topicModel = new Topic($this->db);
+        if (!$topicModel->deleteTopic((string)$userId, (int)$topicId)) {
+            return ['success' => false, 'error' => 'Topic was not found or could not be deleted.'];
+        }
+
+        return ['success' => true, 'message' => 'Topic deleted successfully.'];
+    }
 }

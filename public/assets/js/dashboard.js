@@ -86,7 +86,7 @@ function closeDeleteModalBox() {
 }
 
 deleteTopicBtn.addEventListener('click', () => {
-    openDeleteModal('topic', 'College');
+    openDeleteModal('topic', selectedTopicName);
 });
 
 deleteTaskBtn.addEventListener('click', () => {
