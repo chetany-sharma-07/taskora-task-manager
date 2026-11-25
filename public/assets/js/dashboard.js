@@ -95,3 +95,38 @@ deleteTaskBtn.addEventListener('click', () => {
 
 closeDeleteModal.addEventListener('click', closeDeleteModalBox);
 cancelDelete.addEventListener('click', closeDeleteModalBox);
+
+topicsList.addEventListener('click', function (event) {
+    // Leave the three-dot menu click to sidebar.js.
+    if (event.target.closest('.topic-menu-btn')) return;
+
+    const topicItem = event.target.closest('[data-topic-id]');
+    if (!topicItem || !topicsList.contains(topicItem)) return;
+
+    topicsList.querySelectorAll('[data-topic-id]').forEach(function (item) {
+        if (item !== topicItem) {
+            item.classList.remove('bg-[#1B2550]');
+            item.classList.add('bg-[#11183D]');
+        }
+    });
+
+    slectedDashboardTopicId = topicItem.dataset.topicId;
+    selectedDashboardTopicName = topicItem.querySelector('.topic-name').textContent;
+    topicItem.classList.remove('bg-[#11183D]');
+    topicItem.classList.add('bg-[#1B2550]');
+
+    // This code update the Topic name in the dashbaord .
+    const dashboardTopicNameElements = document.querySelectorAll('.dashboard-topic-name');
+    dashboardTopicNameElements.forEach(function (element) {
+        element.textContent = selectedDashboardTopicName;
+    });
+
+});
+
+async function getTasks(topicId,topicName) {
+    try {
+        const response = await fetch('../api/task/get_tasks.php?topic='+ topicName + '&topic_id=' + topicId);
+        
+        
+    }
+}

@@ -59,7 +59,7 @@ require_once __DIR__ . '/../includes/auth.php';
                 <div>
                     <div class="mb-2 flex items-center gap-2 text-sm font-medium text-[#4ddcff]">
                         <i class="fa-solid fa-layer-group text-xs"></i>
-                        <span>College Dashboard</span>
+                        <span><span class="dashboard-topic-name">College</span> Dashboard</span>
                     </div>
 
                     <h1 class="text-2xl font-bold tracking-tight text-white md:text-4xl">
@@ -67,7 +67,7 @@ require_once __DIR__ . '/../includes/auth.php';
                     </h1>
 
                     <p class="mt-2 text-sm text-slate-400 md:text-base">
-                        Here's your progress and tasks for College.
+                        Here's your progress and tasks for <span class="dashboard-topic-name">College</span>.
                     </p>
                 </div>
 
@@ -351,6 +351,7 @@ require_once __DIR__ . '/../includes/auth.php';
         </div>
 
         <!-- Tasks section ends here  -->
+
 
     </main>
     <!-- main section ends here -->
